@@ -1,0 +1,131 @@
+<!DOCTYPE html><html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>LN XITER - JR XITER</title>
+<style>
+:root{--bg:#0b0b0b;--card:#141414;--red:#ff1f1f;--red2:#8b0000;--txt:#fff}
+*{box-sizing:border-box;font-family:Arial,Helvetica,sans-serif}
+body{margin:0;min-height:100vh;display:flex;align-items:center;justify-content:center;background:radial-gradient(circle at top,#1a0000,#000);color:var(--txt)}
+.card{width:92%;max-width:420px;background:linear-gradient(180deg,#1a1a1a,#0e0e0e);border-radius:26px;padding:20px;box-shadow:0 0 40px rgba(255,31,31,.25)}
+.header{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
+.title{font-weight:800}
+.title span{color:var(--red)}
+.by{opacity:.7;font-size:12px}
+.item{background:linear-gradient(180deg,#1c1c1c,#121212);border-radius:16px;padding:12px 14px;display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.item.col{flex-direction:column;align-items:stretch}
+.switch{width:54px;height:30px;border-radius:30px;background:#2a2a2a;position:relative;cursor:pointer;transition:.2s}
+.switch::after{content:"";width:24px;height:24px;border-radius:50%;background:#fff;position:absolute;top:3px;left:3px;transition:.2s}
+.switch.on{background:linear-gradient(90deg,var(--red2),var(--red));box-shadow:0 0 10px var(--red)}
+.switch.on::after{left:27px}
+.small{opacity:.6;font-size:12px}
+.slider{margin-top:10px}
+input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:8px;border-radius:8px;background:#2a0000;outline:none;cursor:pointer}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:22px;height:22px;border-radius:50%;background:var(--red);box-shadow:0 0 12px var(--red);cursor:pointer}
+input[type=range]::-moz-range-thumb{width:22px;height:22px;border-radius:50%;background:var(--red);border:none;box-shadow:0 0 12px var(--red);cursor:pointer}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;background:var(--red);box-shadow:0 0 10px var(--red)}
+.percent{text-align:right;font-size:12px;opacity:.8}
+.btn{margin-top:12px;background:linear-gradient(90deg,var(--red2),var(--red));border-radius:22px;padding:14px;text-align:center;font-weight:800;cursor:pointer;box-shadow:0 0 14px rgba(255,31,31,.6);transition:.15s}
+.btn:active{transform:scale(.98);box-shadow:0 0 8px rgba(255,31,31,.8)}
+.toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%);background:#111;padding:10px 16px;border-radius:14px;box-shadow:0 0 20px rgba(255,0,0,.4);display:none}
+.inject{position:fixed;left:50%;bottom:80px;transform:translateX(-50%);background:#111;padding:12px 14px;border-radius:14px;width:260px;display:none;box-shadow:0 0 20px rgba(255,0,0,.4)}
+.bar{height:6px;background:#2a0000;border-radius:6px;overflow:hidden;margin-top:8px}
+.bar>div{height:100%;width:0%;background:linear-gradient(90deg,var(--red2),var(--red))}
+</style>
+</head>
+<body>
+<div id="login" style="position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:radial-gradient(circle at top,#1a0000,#000);z-index:999">
+  <div style="background:linear-gradient(180deg,#1a1a1a,#0e0e0e);padding:24px;border-radius:26px;width:85%;max-width:360px;box-shadow:0 0 40px rgba(255,31,31,.4)">
+    <div style="text-align:center;font-weight:800;font-size:18px;margin-bottom:14px">LN <span style="color:#ff1f1f">XITER</span> – LOGIN</div>
+    <input id="pass" type="password" placeholder="Senha" style="width:100%;padding:14px;border-radius:18px;border:none;outline:none;background:#111;color:#fff;margin-bottom:14px;text-align:center;font-size:15px">
+    <div class="btn" id="loginBtn">Entrar</div>
+    <div id="loginErr" style="display:none;margin-top:10px;text-align:center;color:#ff3b3b;font-size:13px">Senha incorreta</div>
+  </div>
+</div><div class="card">
+  <div class="header">
+    <div class="title">LN <span>XITER</span> – JR <span>XITER</span></div>
+    <div class="by">By: LN · JR</div>
+  </div>  <div class="item"><div>Auxílio de Mira</div><div class="switch" data-key="aim"></div></div>
+  <div class="item"><div>Mira Suave</div><div class="switch" data-key="smooth"></div></div>
+  <div class="item"><div>No Recoil</div><div class="switch" data-key="recoil"></div></div>
+  <div class="item"><div>Não Passar da Cabeça</div><div class="switch" data-key="head"></div></div>  <div class="item col">
+    <div style="display:flex;justify-content:space-between;align-items:center">
+      <div>Aimbot Legit<br><span class="small">Controle de intensidade</span></div>
+      <div class="switch" id="aimbot"></div>
+    </div>
+    <div class="slider">
+      <input id="range" type="range" min="0" max="100" value="50" disabled />
+      <div class="percent"><span id="val">50</span>%</div>
+    </div>
+  </div>  <div class="btn" id="toggleAll">Ativar Funções</div>
+  <div class="btn" id="injectBtn" style="opacity:.95">Injetar</div>
+</div><div class="toast" id="toast"></div>
+<div class="inject" id="inject">
+  <div id="injectTxt">Preparando módulos…</div>
+  <div class="bar"><div id="injectBar"></div></div>
+</div><script>
+const toast=(m)=>{const t=document.getElementById('toast');t.textContent=m;t.style.display='block';setTimeout(()=>t.style.display='none',1800)};
+const vibr=(p)=>{if(navigator.vibrate) navigator.vibrate(p)};
+
+// switches individuais
+const switches=[...document.querySelectorAll('.switch')];
+switches.forEach(sw=>{
+  sw.addEventListener('click',()=>{
+    sw.classList.toggle('on');
+    const name=sw.id==='aimbot'?'Aimbot Legit':sw.parentElement.firstElementChild.textContent;
+    if(sw.id==='aimbot'){
+      range.disabled=!sw.classList.contains('on');
+    }
+    toast(name+(sw.classList.contains('on')?' ativado':' desativado'));
+    vibr(25);
+  });
+});
+
+// slider funcionando
+const range=document.getElementById('range');
+const val=document.getElementById('val');
+range.addEventListener('input',()=>{val.textContent=range.value});
+
+// ativar/desativar geral
+let all=false;
+document.getElementById('toggleAll').addEventListener('click',()=>{
+  all=!all;
+  switches.forEach(sw=>sw.classList.toggle('on',all));
+  range.disabled=!document.getElementById('aimbot').classList.contains('on');
+  toast(all?'Todas as funções ativadas':'Todas as funções desativadas');
+  vibr([40,40]);
+});
+
+// injetar fake
+const inject=document.getElementById('inject');
+const injectTxt=document.getElementById('injectTxt');
+const injectBar=document.getElementById('injectBar');
+let injecting=false;
+document.getElementById('injectBtn').addEventListener('click',()=>{
+  if(injecting) return;
+  injecting=true;inject.style.display='block';injectBar.style.width='0%';
+  const steps=[["Carregando offsets…",30],["Aplicando parâmetros…",60],["Finalizando injeção…",90]];
+  let i=0;injectTxt.textContent='Preparando módulos…';vibr(30);
+  const it=setInterval(()=>{
+    if(i<steps.length){injectTxt.textContent=steps[i][0];injectBar.style.width=steps[i][1]+'%';i++;}
+    else{injectBar.style.width='100%';injectTxt.textContent='Injeção concluída com sucesso';vibr([50,50]);clearInterval(it);setTimeout(()=>{inject.style.display='none';injecting=false},1200)}
+  },600);
+});
+// login
+const login=document.getElementById('login');
+const loginBtn=document.getElementById('loginBtn');
+const pass=document.getElementById('pass');
+const err=document.getElementById('loginErr');
+loginBtn.addEventListener('click',()=>{
+  if(pass.value==='LJ'){
+    login.style.display='none';
+    toast('Login autorizado');
+    vibr([50,30]);
+  }else{
+    err.style.display='block';
+    vibr(80);
+  }
+});
+
+</script></body>
+</html>
