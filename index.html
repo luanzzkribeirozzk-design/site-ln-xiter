@@ -1,185 +1,828 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AMAIA MODS</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>LN-JR AUXILIO - Owner Panel</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
 
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;800&display=swap" rel="stylesheet">
+        html, body {
+            width: 100%;
+            height: 100%;
+            overflow-x: hidden;
+        }
 
-<style>
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:'Orbitron',sans-serif;
-}
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #0f172a 0%, #1a1f3a 50%, #0f172a 100%);
+            color: #e2e8f0;
+            min-height: 100vh;
+            padding: 20px;
+        }
 
-body{
-height:100vh;
-display:flex;
-justify-content:center;
-align-items:center;
-background:#0a0014;
-overflow:hidden;
-}
+        .wrapper {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
 
-/* Fundo gradiente animado */
-body::before{
-content:"";
-position:absolute;
-width:200%;
-height:200%;
-background:radial-gradient(circle,#6a00ff,#1a002b,#000);
-animation:rotateBg 20s linear infinite;
-}
+        /* LOGIN SCREEN */
+        .login-screen {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, #0f172a 0%, #1a1f3a 50%, #0f172a 100%);
+            z-index: 1000;
+        }
 
-@keyframes rotateBg{
-from{transform:rotate(0deg);}
-to{transform:rotate(360deg);}
-}
+        .login-screen.hidden {
+            display: none;
+        }
 
-/* Partículas */
-.particles span{
-position:absolute;
-width:6px;
-height:6px;
-background:#b026ff;
-border-radius:50%;
-box-shadow:0 0 15px #b026ff,0 0 30px #7b00ff;
-animation:float 10s linear infinite;
-}
+        .login-card {
+            background: rgba(30, 41, 59, 0.8);
+            border: 1px solid rgba(148, 163, 184, 0.1);
+            border-radius: 16px;
+            padding: 40px;
+            backdrop-filter: blur(10px);
+            max-width: 400px;
+            width: 100%;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
 
-@keyframes float{
-from{transform:translateY(100vh);}
-to{transform:translateY(-10vh);}
-}
+        .login-header {
+            text-align: center;
+            margin-bottom: 32px;
+        }
 
-/* Card */
-.card{
-position:relative;
-width:92%;
-max-width:360px;
-padding:30px 20px;
-border-radius:25px;
-background:rgba(255,255,255,0.05);
-backdrop-filter:blur(20px);
-box-shadow:0 0 40px #7b00ff;
-animation:floatCard 4s ease-in-out infinite alternate;
-overflow:hidden;
-z-index:2;
-}
+        .login-header h1 {
+            font-size: 32px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #d946ef 0%, #ec4899 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 8px;
+        }
 
-@keyframes floatCard{
-from{transform:translateY(-10px);}
-to{transform:translateY(10px);}
-}
+        .login-header p {
+            font-size: 13px;
+            color: #94a3b8;
+            font-weight: 500;
+        }
 
-/* Borda animada */
-.card::before{
-content:"";
-position:absolute;
-inset:-2px;
-border-radius:25px;
-background:linear-gradient(45deg,#9d00ff,#5a00ff,#c026ff,#9d00ff);
-background-size:400%;
-animation:borderAnim 8s linear infinite;
-z-index:-1;
-}
+        .form-group {
+            margin-bottom: 20px;
+        }
 
-@keyframes borderAnim{
-0%{background-position:0%;}
-100%{background-position:400%;}
-}
+        .form-label {
+            font-size: 13px;
+            font-weight: 600;
+            color: #cbd5e1;
+            margin-bottom: 8px;
+            display: block;
+        }
 
-h1{
-text-align:center;
-font-size:28px;
-color:#e0aaff;
-text-shadow:0 0 15px #9d00ff,0 0 30px #7b00ff;
-margin-bottom:25px;
-}
+        .form-input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1.5px solid rgba(148, 163, 184, 0.2);
+            border-radius: 10px;
+            background: rgba(15, 23, 42, 0.5);
+            color: #f1f5f9;
+            font-size: 14px;
+            font-family: 'Poppins', sans-serif;
+            transition: all 0.2s ease;
+        }
 
-/* Botões */
-.btn{
-position:relative;
-display:block;
-width:100%;
-padding:14px;
-margin:14px 0;
-border-radius:15px;
-text-align:center;
-text-decoration:none;
-color:white;
-font-weight:600;
-overflow:hidden;
-border:1px solid #9d00ff;
-background:rgba(157,0,255,0.15);
-box-shadow:0 0 15px #7b00ff;
-transition:0.3s;
-}
+        .form-input:focus {
+            outline: none;
+            border-color: rgba(217, 70, 239, 0.5);
+            background: rgba(15, 23, 42, 0.7);
+            box-shadow: 0 0 20px rgba(217, 70, 239, 0.2);
+        }
 
-.btn:hover{
-transform:scale(1.06);
-box-shadow:0 0 25px #9d00ff,0 0 60px #7b00ff;
-background:#7b00ff;
-}
+        .form-input::placeholder {
+            color: #64748b;
+        }
 
-/* Efeito brilho passando */
-.btn::before{
-content:"";
-position:absolute;
-top:0;
-left:-100%;
-width:100%;
-height:100%;
-background:linear-gradient(120deg,transparent,rgba(255,255,255,0.4),transparent);
-transition:0.5s;
-}
+        .error-message {
+            padding: 12px;
+            border: 1.5px solid rgba(239, 68, 68, 0.3);
+            border-radius: 8px;
+            background: rgba(239, 68, 68, 0.1);
+            color: #ef4444;
+            font-size: 12px;
+            margin-bottom: 16px;
+            display: none;
+        }
 
-.btn:hover::before{
-left:100%;
-}
+        .error-message.show {
+            display: block;
+        }
 
-.creator{
-position:absolute;
-bottom:10px;
-right:15px;
-font-size:10px;
-color:#bbb;
-opacity:0.7;
-}
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-family: 'Poppins', sans-serif;
+            letter-spacing: 0.3px;
+        }
 
-/* Responsivo total */
-@media(max-width:400px){
-h1{font-size:24px;}
-}
+        .btn:active:not(:disabled) {
+            transform: scale(0.98);
+        }
 
-</style>
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #d946ef 0%, #ec4899 100%);
+            color: #fff;
+            width: 100%;
+            box-shadow: 0 10px 30px rgba(217, 70, 239, 0.3);
+            font-weight: 700;
+        }
+
+        .btn-primary:hover:not(:disabled) {
+            box-shadow: 0 15px 40px rgba(217, 70, 239, 0.4);
+            transform: translateY(-2px);
+        }
+
+        /* OWNER SCREEN */
+        .owner-screen {
+            display: none;
+        }
+
+        .owner-screen.active {
+            display: block;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(148, 163, 184, 0.1);
+        }
+
+        .header h1 {
+            font-size: 32px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #d946ef 0%, #ec4899 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .logout-btn {
+            background: rgba(239, 68, 68, 0.15);
+            color: #ef4444;
+            border: 1.5px solid rgba(239, 68, 68, 0.3);
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .logout-btn:hover {
+            background: rgba(239, 68, 68, 0.25);
+            border-color: rgba(239, 68, 68, 0.5);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            margin-bottom: 32px;
+        }
+
+        .stat-card {
+            background: rgba(30, 41, 59, 0.8);
+            border: 1px solid rgba(148, 163, 184, 0.1);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            border-color: rgba(217, 70, 239, 0.3);
+            background: rgba(30, 41, 59, 0.95);
+        }
+
+        .stat-value {
+            font-size: 32px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #d946ef 0%, #ec4899 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 8px;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: #94a3b8;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        .card {
+            background: rgba(30, 41, 59, 0.8);
+            border: 1px solid rgba(148, 163, 184, 0.1);
+            border-radius: 16px;
+            padding: 28px;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            margin-bottom: 24px;
+        }
+
+        .card:hover {
+            border-color: rgba(217, 70, 239, 0.3);
+            background: rgba(30, 41, 59, 0.95);
+            box-shadow: 0 20px 40px rgba(217, 70, 239, 0.1);
+        }
+
+        .card-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #f1f5f9;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .card-title-icon {
+            width: 24px;
+            height: 24px;
+            background: linear-gradient(135deg, #d946ef 0%, #ec4899 100%);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+        }
+
+        .button-group {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .btn-secondary {
+            background: rgba(217, 70, 239, 0.15);
+            color: #d946ef;
+            border: 1.5px solid rgba(217, 70, 239, 0.3);
+        }
+
+        .btn-secondary:hover:not(:disabled) {
+            background: rgba(217, 70, 239, 0.25);
+            border-color: #d946ef;
+        }
+
+        .keys-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 16px;
+            max-height: 600px;
+            overflow-y: auto;
+            padding-right: 8px;
+        }
+
+        .keys-list::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .keys-list::-webkit-scrollbar-track {
+            background: rgba(30, 41, 59, 0.5);
+            border-radius: 3px;
+        }
+
+        .keys-list::-webkit-scrollbar-thumb {
+            background: rgba(217, 70, 239, 0.5);
+            border-radius: 3px;
+        }
+
+        .key-card {
+            background: rgba(30, 41, 59, 0.8);
+            border: 1px solid rgba(148, 163, 184, 0.1);
+            border-radius: 12px;
+            padding: 16px;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .key-card:hover {
+            border-color: rgba(217, 70, 239, 0.3);
+            background: rgba(30, 41, 59, 0.95);
+            box-shadow: 0 10px 30px rgba(217, 70, 239, 0.1);
+        }
+
+        .key-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 12px;
+        }
+
+        .key-card-key {
+            font-size: 13px;
+            font-weight: 700;
+            color: #d946ef;
+            font-family: 'JetBrains Mono', monospace;
+            word-break: break-all;
+            flex: 1;
+        }
+
+        .key-card-badge {
+            font-size: 10px;
+            font-weight: 700;
+            padding: 4px 10px;
+            border-radius: 6px;
+            margin-left: 8px;
+            white-space: nowrap;
+            background: rgba(74, 222, 128, 0.2);
+            color: #4ade80;
+        }
+
+        .key-card-info {
+            font-size: 11px;
+            color: #94a3b8;
+            margin-bottom: 12px;
+            line-height: 1.6;
+        }
+
+        .key-card-actions {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+        }
+
+        .key-card-btn {
+            padding: 8px;
+            border: 1px solid rgba(148, 163, 184, 0.2);
+            border-radius: 6px;
+            background: rgba(15, 23, 42, 0.5);
+            color: #cbd5e1;
+            font-size: 11px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .key-card-btn:hover {
+            background: rgba(217, 70, 239, 0.15);
+            border-color: rgba(217, 70, 239, 0.3);
+            color: #d946ef;
+        }
+
+        .key-card-btn.delete {
+            border-color: rgba(239, 68, 68, 0.2);
+            color: #ef4444;
+        }
+
+        .key-card-btn.delete:hover {
+            background: rgba(239, 68, 68, 0.15);
+            border-color: rgba(239, 68, 68, 0.3);
+        }
+
+        .empty-message {
+            padding: 40px;
+            text-align: center;
+            color: #64748b;
+            font-size: 14px;
+            grid-column: 1 / -1;
+        }
+
+        @media (max-width: 768px) {
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .keys-list {
+                grid-template-columns: 1fr;
+            }
+
+            .header {
+                flex-direction: column;
+                gap: 16px;
+                align-items: flex-start;
+            }
+        }
+    </style>
 </head>
 <body>
+    <!-- LOGIN SCREEN -->
+    <div class="login-screen" id="loginScreen">
+        <div class="login-card">
+            <div class="login-header">
+                <h1>LN DONO</h1>
+                <p>Painel do Proprietário</p>
+            </div>
 
-<div class="particles">
-<span style="left:10%;animation-delay:0s;"></span>
-<span style="left:30%;animation-delay:2s;"></span>
-<span style="left:50%;animation-delay:4s;"></span>
-<span style="left:70%;animation-delay:1s;"></span>
-<span style="left:90%;animation-delay:3s;"></span>
-</div>
+            <div id="errorMessage" class="error-message"></div>
 
-<div class="card">
-<h1>AMAIA MODS</h1>
+            <div class="form-group">
+                <label class="form-label">SENHA DO DONO</label>
+                <input type="password" class="form-input" id="passwordInput" placeholder="Digite sua senha..." onkeypress="handleKeyPress(event)">
+            </div>
 
-<a class="btn" href="https://www.mediafire.com/file/9fnr6xxcozqpop8/PATO_TEAM_APK_MOD.zip/file" target="_blank">
-📥 BAIXAR MOD
-</a>
+            <button class="btn btn-primary" onclick="login()">ENTRAR</button>
+        </div>
+    </div>
 
-<a class="btn" href="https://wa.me/5598992288376" target="_blank">
-💬 FALAR COM A VENDEDORA
-</a>
+    <!-- OWNER SCREEN -->
+    <div class="owner-screen" id="ownerScreen">
+        <div class="wrapper">
+            <!-- HEADER -->
+            <div class="header">
+                <h1>LN DONO</h1>
+                <button class="logout-btn" onclick="logout()">SAIR</button>
+            </div>
 
-<div class="creator">By LN</div>
-</div>
+            <!-- STATS -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-value" id="totalKeys">0</div>
+                    <div class="stat-label">Total de Keys para Admin</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="activeKeys">0</div>
+                    <div class="stat-label">Keys Ativas</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="expiredKeys">0</div>
+                    <div class="stat-label">Keys Expiradas</div>
+                </div>
+            </div>
 
+            <!-- GERAR KEY PARA ADMIN -->
+            <div class="card">
+                <div class="card-title">
+                    <div class="card-title-icon">⚙️</div>
+                    Gerar Keys para Admin
+                </div>
+
+                <div class="form-group" style="display: flex; gap: 10px; flex-wrap: wrap;">
+                    <div style="flex: 2; min-width: 120px;">
+                        <label class="form-label">Valor de Validade</label>
+                        <input type="number" class="form-input" id="timeValueInput" placeholder="Ex: 7" min="1" value="7">
+                    </div>
+                    <div style="flex: 1; min-width: 100px;">
+                        <label class="form-label">Unidade</label>
+                        <select class="form-input" id="timeUnitInput">
+                            <option value="minutos">Minutos</option>
+                            <option value="horas">Horas</option>
+                            <option value="dias" selected>Dias</option>
+                        </select>
+                    </div>
+                    <div style="flex: 1; min-width: 100px;">
+                        <label class="form-label">Dispositivos</label>
+                        <select class="form-input" id="deviceLimitInput">
+                            <option value="1" selected>1 Tela</option>
+                            <option value="2">2 Telas</option>
+                        </select>
+                    </div>
+                </div>
+
+                <button class="btn btn-primary" onclick="generateKey()">GERAR KEY</button>
+            </div>
+
+            <!-- KEYS PARA ADMIN -->
+            <div class="card">
+                <div class="card-title">
+                    <div class="card-title-icon">📋</div>
+                    Keys Geradas para Admin
+                </div>
+
+                <div class="keys-list" id="keysList">
+                    <div class="empty-message">Nenhuma key gerada ainda</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const OWNER_PASSWORD = 'owner123';
+        let generatedKeys = {};
+
+        function init() {
+            loadKeys();
+            renderKeysList();
+            updateStats();
+            setInterval(() => {
+                renderKeysList();
+                updateStats();
+            }, 1000);
+        }
+
+        function loadKeys() {
+            const stored = localStorage.getItem('owner_generated_keys');
+            generatedKeys = stored ? JSON.parse(stored) : {};
+        }
+
+        function saveKeys() {
+            localStorage.setItem('owner_generated_keys', JSON.stringify(generatedKeys));
+        }
+
+        function handleKeyPress(event) {
+            if (event.key === 'Enter') {
+                login();
+            }
+        }
+
+        function showError(message) {
+            const errorMsg = document.getElementById('errorMessage');
+            errorMsg.textContent = message;
+            errorMsg.classList.add('show');
+            setTimeout(() => {
+                errorMsg.classList.remove('show');
+            }, 3000);
+        }
+
+        function login() {
+            const password = document.getElementById('passwordInput').value;
+            
+            if (!password) {
+                showError('Digite a senha!');
+                return;
+            }
+
+            if (password === OWNER_PASSWORD) {
+                localStorage.setItem('owner_logged', 'true');
+                document.getElementById('loginScreen').classList.add('hidden');
+                document.getElementById('ownerScreen').classList.add('active');
+            } else {
+                showError('Senha incorreta!');
+                document.getElementById('passwordInput').value = '';
+            }
+        }
+
+        function logout() {
+            localStorage.removeItem('owner_logged');
+            document.getElementById('ownerScreen').classList.remove('active');
+            document.getElementById('loginScreen').classList.remove('hidden');
+            document.getElementById('passwordInput').value = '';
+        }
+
+        function generateKey() {
+            const timeValue = parseInt(document.getElementById('timeValueInput').value);
+            const timeUnit = document.getElementById('timeUnitInput').value;
+            const deviceLimit = parseInt(document.getElementById('deviceLimitInput').value) || 1;
+            
+            if (!timeValue || timeValue < 1) {
+                alert('Digite um valor válido!');
+                return;
+            }
+
+            let durationMs = 0;
+            if (timeUnit === 'minutos') durationMs = timeValue * 60 * 1000;
+            else if (timeUnit === 'horas') durationMs = timeValue * 60 * 60 * 1000;
+            else durationMs = timeValue * 24 * 60 * 60 * 1000;
+
+            const key = 'ADMIN-' + Math.random().toString(36).substr(2, 6).toUpperCase();
+
+            generatedKeys[key] = {
+                createdAt: Date.now(),
+                isActivated: false,
+                activatedAt: null,
+                expiryTime: null,
+                durationValue: timeValue,
+                durationUnit: timeUnit,
+                durationMs: durationMs,
+                isPaused: false,
+                remainingMs: durationMs,
+                deviceLimit: deviceLimit,
+                usedDevices: []
+            };
+
+            saveKeys();
+            renderKeysList();
+            updateStats();
+            alert('Key gerada com sucesso! (Ativará no primeiro uso)');
+        }
+
+        function resetDevices(key) {
+            if (confirm("Deseja resetar os dispositivos desta key?")) {
+                if (generatedKeys[key]) {
+                    generatedKeys[key].usedDevices = [];
+                    saveKeys();
+                    renderKeysList();
+                    alert("Dispositivos resetados!");
+                }
+            }
+        }
+
+        function togglePause(key) {
+            const data = generatedKeys[key];
+            if (!data) return;
+
+            if (data.isPaused) {
+                // Retomar
+                if (data.isActivated) {
+                    data.expiryTime = Date.now() + data.remainingMs;
+                }
+                data.isPaused = false;
+                showSuccessMessage("✓ KEY RETOMADA!");
+            } else {
+                // Pausar
+                if (data.isActivated) {
+                    const remaining = data.expiryTime - Date.now();
+                    data.remainingMs = Math.max(0, remaining);
+                }
+                data.isPaused = true;
+                showSuccessMessage("✓ KEY PAUSADA!");
+            }
+            saveKeys();
+            renderKeysList();
+            updateStats();
+        }
+
+        function expireKey(key) {
+            if (confirm("Deseja realmente expirar esta key agora?")) {
+                generatedKeys[key].expiryTime = Date.now() - 1000;
+                generatedKeys[key].isPaused = false;
+                saveKeys();
+                renderKeysList();
+                updateStats();
+                showSuccessMessage("✓ KEY EXPIRADA!");
+            }
+        }
+
+        function renewKey(key) {
+            const data = generatedKeys[key];
+            if (!data) return;
+
+            if (confirm(`Deseja renovar esta key para mais ${data.durationValue || data.days} ${data.durationUnit || 'dias'}?`)) {
+                let durationMs = 0;
+                const value = data.durationValue || data.days;
+                const unit = data.durationUnit || 'dias';
+
+                if (unit === 'minutos') durationMs = value * 60 * 1000;
+                else if (unit === 'horas') durationMs = value * 60 * 60 * 1000;
+                else durationMs = value * 24 * 60 * 60 * 1000;
+
+                data.expiryTime = Date.now() + durationMs;
+                data.isPaused = false;
+                data.remainingMs = durationMs;
+                
+                saveKeys();
+                renderKeysList();
+                updateStats();
+                showSuccessMessage("✓ KEY RENOVADA COM SUCESSO!");
+            }
+        }
+
+        function showSuccessMessage(msg) {
+            alert(msg);
+        }
+
+        function copyKey(key) {
+            const textArea = document.createElement("textarea");
+            textArea.value = key;
+            document.body.appendChild(textArea);
+            textArea.select();
+            try {
+                document.execCommand('copy');
+                alert('Key copiada com sucesso!');
+            } catch (err) {
+                alert('Erro ao copiar key.');
+            }
+            document.body.removeChild(textArea);
+        }
+
+        function deleteKey(key) {
+            if (confirm('Deletar esta key?')) {
+                delete generatedKeys[key];
+                saveKeys();
+                renderKeysList();
+                updateStats();
+            }
+        }
+
+        function updateStats() {
+            const total = Object.keys(generatedKeys).length;
+            const active = Object.values(generatedKeys).filter(k => k.expiryTime > Date.now()).length;
+            const expired = total - active;
+
+            document.getElementById('totalKeys').textContent = total;
+            document.getElementById('activeKeys').textContent = active;
+            document.getElementById('expiredKeys').textContent = expired;
+        }
+
+        function renderKeysList() {
+            const container = document.getElementById('keysList');
+            const allKeys = Object.entries(generatedKeys).sort((a, b) => b[1].createdAt - a[1].createdAt);
+
+            if (allKeys.length === 0) {
+                container.innerHTML = '<div class="empty-message">Nenhuma key gerada ainda</div>';
+                return;
+            }
+
+            container.innerHTML = allKeys.map(([key, data]) => {
+                const now = Date.now();
+                let statusText = '';
+                let expiryDisplay = 'Aguardando Ativação';
+                let badge = '⏳';
+                let diff = 0;
+                let isExpired = false;
+
+                if (!data.isActivated) {
+                    statusText = '<span style="color: #38bdf8;">Aguardando Uso</span>';
+                    badge = '⏳';
+                } else {
+                    diff = data.isPaused ? data.remainingMs : (data.expiryTime - now);
+                    isExpired = diff <= 0;
+                    expiryDisplay = new Date(data.expiryTime).toLocaleString('pt-BR');
+
+                    if (isExpired) {
+                        statusText = '<span style="color: #ef4444;">Expirada</span>';
+                        badge = '❌';
+                    } else if (data.isPaused) {
+                        statusText = '<span style="color: #f59e0b;">Pausada</span>';
+                        badge = '⏸';
+                    } else {
+                        badge = '✓';
+                        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+                        const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                        const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+                        const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+                        
+                        if (days > 0) statusText = `${days}D ${hours}H`;
+                        else if (hours > 0) statusText = `${hours}H ${minutes}M`;
+                        else statusText = `${minutes}M ${seconds}S`;
+                    }
+                }
+
+                const durationDisplay = data.durationValue ? `${data.durationValue} ${data.durationUnit}` : `${data.days} dias`;
+
+                return `
+                    <div class="key-card" style="${data.isPaused ? 'border-color: #f59e0b; background: rgba(245, 158, 11, 0.05);' : ''}">
+                        <div class="key-card-header">
+                            <div class="key-card-key">${key}</div>
+                            <div class="key-card-badge">${badge}</div>
+                        </div>
+                        <div class="key-card-info">
+                            <div>Criada: ${new Date(data.createdAt).toLocaleString('pt-BR')}</div>
+                            <div style="color: #ef4444; font-weight: 600;">Expira: ${expiryDisplay}</div>
+                            <div>Validade: ${durationDisplay}</div>
+                            <div>Telas: ${data.usedDevices ? data.usedDevices.length : 0} / ${data.deviceLimit || 1}</div>
+                            <div>Status: ${statusText}</div>
+                        </div>
+                        <div class="key-card-actions" style="display: grid; grid-template-columns: 1fr 1fr; gap: 5px;">
+                            <button class="key-card-btn" onclick="copyKey('${key}')">COPIAR</button>
+                            <button class="key-card-btn" style="background: rgba(147, 51, 234, 0.1); color: #d946ef;" onclick="renewKey('${key}')">RENOVAR</button>
+                            <button class="key-card-btn" style="background: ${data.isPaused ? 'rgba(34, 197, 94, 0.1)' : 'rgba(245, 158, 11, 0.1)'}; color: ${data.isPaused ? '#22c55e' : '#f59e0b'};" onclick="togglePause('${key}')">${data.isPaused ? 'RETOMAR' : 'PAUSAR'}</button>
+                            <button class="key-card-btn" style="background: rgba(239, 68, 68, 0.1); color: #ef4444;" onclick="expireKey('${key}')">EXPIRAR</button>
+                            <button class="key-card-btn" style="background: rgba(56, 189, 248, 0.1); color: #38bdf8;" onclick="resetDevices('${key}')">RESETAR TELAS</button>
+                            <button class="key-card-btn delete" style="grid-column: span 2;" onclick="deleteKey('${key}')">DELETAR CHAVE</button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function checkLogin() {
+            if (localStorage.getItem('owner_logged') === 'true') {
+                document.getElementById('loginScreen').classList.add('hidden');
+                document.getElementById('ownerScreen').classList.add('active');
+            }
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            checkLogin();
+            init();
+        });
+    </script>
 </body>
 </html>
