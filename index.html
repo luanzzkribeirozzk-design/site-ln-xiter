@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>LN-JR AUXILIO - Owner Panel</title>
+    <title>PAINEL ADMIN</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -169,12 +169,12 @@
             transform: translateY(-2px);
         }
 
-        /* OWNER SCREEN */
-        .owner-screen {
+        /* ADMIN SCREEN */
+        .admin-screen {
             display: none;
         }
 
-        .owner-screen.active {
+        .admin-screen.active {
             display: block;
         }
 
@@ -292,19 +292,35 @@
 
         .button-group {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
             gap: 12px;
+            margin-bottom: 20px;
         }
 
         .btn-secondary {
             background: rgba(217, 70, 239, 0.15);
             color: #d946ef;
             border: 1.5px solid rgba(217, 70, 239, 0.3);
+            padding: 10px 16px;
+            font-size: 12px;
         }
 
         .btn-secondary:hover:not(:disabled) {
             background: rgba(217, 70, 239, 0.25);
             border-color: #d946ef;
+        }
+
+        .btn-danger {
+            background: rgba(239, 68, 68, 0.15);
+            color: #ef4444;
+            border: 1.5px solid rgba(239, 68, 68, 0.3);
+            padding: 10px 16px;
+            font-size: 12px;
+        }
+
+        .btn-danger:hover:not(:disabled) {
+            background: rgba(239, 68, 68, 0.25);
+            border-color: #ef4444;
         }
 
         .keys-list {
@@ -374,6 +390,11 @@
             color: #4ade80;
         }
 
+        .key-card-badge.paused {
+            background: rgba(248, 113, 113, 0.2);
+            color: #f87171;
+        }
+
         .key-card-info {
             font-size: 11px;
             color: #94a3b8;
@@ -383,7 +404,7 @@
 
         .key-card-actions {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: 1fr 1fr 1fr;
             gap: 8px;
         }
 
@@ -393,7 +414,7 @@
             border-radius: 6px;
             background: rgba(15, 23, 42, 0.5);
             color: #cbd5e1;
-            font-size: 11px;
+            font-size: 10px;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.2s ease;
@@ -404,6 +425,16 @@
             background: rgba(217, 70, 239, 0.15);
             border-color: rgba(217, 70, 239, 0.3);
             color: #d946ef;
+        }
+
+        .key-card-btn.pause {
+            border-color: rgba(248, 113, 113, 0.2);
+            color: #f87171;
+        }
+
+        .key-card-btn.pause:hover {
+            background: rgba(248, 113, 113, 0.15);
+            border-color: rgba(248, 113, 113, 0.3);
         }
 
         .key-card-btn.delete {
@@ -424,6 +455,17 @@
             grid-column: 1 / -1;
         }
 
+        .info-box {
+            padding: 12px;
+            border: 1.5px solid rgba(74, 222, 128, 0.3);
+            border-radius: 8px;
+            background: rgba(74, 222, 128, 0.1);
+            color: #4ade80;
+            font-size: 12px;
+            margin-bottom: 16px;
+            line-height: 1.6;
+        }
+
         @media (max-width: 768px) {
             .stats-grid {
                 grid-template-columns: 1fr;
@@ -438,6 +480,10 @@
                 gap: 16px;
                 align-items: flex-start;
             }
+
+            .key-card-actions {
+                grid-template-columns: 1fr 1fr;
+            }
         }
     </style>
 </head>
@@ -446,27 +492,27 @@
     <div class="login-screen" id="loginScreen">
         <div class="login-card">
             <div class="login-header">
-                <h1>LN DONO</h1>
-                <p>Painel do Proprietário</p>
+                <h1>PAINEL ADMIN</h1>
+                <p>Gerenciador de Usuários</p>
             </div>
 
             <div id="errorMessage" class="error-message"></div>
 
             <div class="form-group">
-                <label class="form-label">SENHA DO DONO</label>
-                <input type="password" class="form-input" id="passwordInput" placeholder="Digite sua senha..." onkeypress="handleKeyPress(event)">
+                <label class="form-label">CHAVE DO DONO</label>
+                <input type="password" class="form-input" id="keyInput" placeholder="Cole a key do dono..." onkeypress="handleKeyPress(event)">
             </div>
 
             <button class="btn btn-primary" onclick="login()">ENTRAR</button>
         </div>
     </div>
 
-    <!-- OWNER SCREEN -->
-    <div class="owner-screen" id="ownerScreen">
+    <!-- ADMIN SCREEN -->
+    <div class="admin-screen" id="adminScreen">
         <div class="wrapper">
             <!-- HEADER -->
             <div class="header">
-                <h1>LN DONO</h1>
+                <h1>PAINEL ADMIN</h1>
                 <button class="logout-btn" onclick="logout()">SAIR</button>
             </div>
 
@@ -474,7 +520,7 @@
             <div class="stats-grid">
                 <div class="stat-card">
                     <div class="stat-value" id="totalKeys">0</div>
-                    <div class="stat-label">Total de Keys para Admin</div>
+                    <div class="stat-label">Total de Keys para Usuários</div>
                 </div>
                 <div class="stat-card">
                     <div class="stat-value" id="activeKeys">0</div>
@@ -486,11 +532,15 @@
                 </div>
             </div>
 
-            <!-- GERAR KEY PARA ADMIN -->
+            <!-- GERAR KEY PARA USUÁRIOS -->
             <div class="card">
                 <div class="card-title">
                     <div class="card-title-icon">⚙️</div>
-                    Gerar Keys para Admin
+                    Gerar Key para Usuários
+                </div>
+
+                <div class="info-box">
+                    ✓ Você está logado como Admin. Gere keys para distribuir aos usuários finais.
                 </div>
 
                 <div class="form-group" style="display: flex; gap: 10px; flex-wrap: wrap;">
@@ -518,11 +568,25 @@
                 <button class="btn btn-primary" onclick="generateKey()">GERAR KEY</button>
             </div>
 
-            <!-- KEYS PARA ADMIN -->
+            <!-- CONTROLES DE KEYS -->
+            <div class="card">
+                <div class="card-title">
+                    <div class="card-title-icon">🎛️</div>
+                    Controles
+                </div>
+
+                <div class="button-group">
+                    <button class="btn btn-secondary" onclick="pauseAllKeys()">PAUSAR TODAS</button>
+                    <button class="btn btn-secondary" onclick="unpauseAllKeys()">DESPAUSAR TODAS</button>
+                    <button class="btn btn-danger" onclick="clearExpiredKeys()">LIMPAR EXPIRADAS</button>
+                </div>
+            </div>
+
+            <!-- KEYS PARA USUÁRIOS -->
             <div class="card">
                 <div class="card-title">
                     <div class="card-title-icon">📋</div>
-                    Keys Geradas para Admin
+                    Keys Geradas para Usuários
                 </div>
 
                 <div class="keys-list" id="keysList">
@@ -533,8 +597,8 @@
     </div>
 
     <script>
-        const OWNER_PASSWORD = 'owner123';
         let generatedKeys = {};
+        let adminKey = null;
 
         function init() {
             loadKeys();
@@ -543,16 +607,48 @@
             setInterval(() => {
                 renderKeysList();
                 updateStats();
+                checkCurrentKeyValidity(); // Verifica se o admin ainda é válido
             }, 1000);
         }
 
+        function checkCurrentKeyValidity() {
+            if (localStorage.getItem('admin_logged') !== 'true') return;
+            
+            const key = localStorage.getItem('admin_key');
+            const ownerKeys = JSON.parse(localStorage.getItem('owner_generated_keys') || '{}');
+            const keyData = ownerKeys[key];
+            
+            let shouldLogout = false;
+            let reason = "";
+
+            if (!keyData) {
+                shouldLogout = true;
+                reason = "Sua chave foi deletada pelo dono.";
+            } else if (keyData.isPaused) {
+                shouldLogout = true;
+                reason = "Sua chave foi pausada pelo dono.";
+            } else {
+                const now = Date.now();
+                const diff = keyData.expiryTime - now;
+                if (diff <= 0) {
+                    shouldLogout = true;
+                    reason = "Sua chave de Admin expirou.";
+                }
+            }
+
+            if (shouldLogout) {
+                alert(reason);
+                logout();
+            }
+        }
+
         function loadKeys() {
-            const stored = localStorage.getItem('owner_generated_keys');
+            const stored = localStorage.getItem('admin_generated_keys');
             generatedKeys = stored ? JSON.parse(stored) : {};
         }
 
         function saveKeys() {
-            localStorage.setItem('owner_generated_keys', JSON.stringify(generatedKeys));
+            localStorage.setItem('admin_generated_keys', JSON.stringify(generatedKeys));
         }
 
         function handleKeyPress(event) {
@@ -570,29 +666,80 @@
             }, 3000);
         }
 
+        function getHWID() {
+            let hwid = localStorage.getItem('admin_device_hwid');
+            if (!hwid) {
+                hwid = 'ADM-HWID-' + Math.random().toString(36).substr(2, 15).toUpperCase();
+                localStorage.setItem('admin_device_hwid', hwid);
+            }
+            return hwid;
+        }
+
         function login() {
-            const password = document.getElementById('passwordInput').value;
+            const key = document.getElementById('keyInput').value.trim();
             
-            if (!password) {
-                showError('Digite a senha!');
+            if (!key) {
+                showError('Cole a key do dono!');
                 return;
             }
 
-            if (password === OWNER_PASSWORD) {
-                localStorage.setItem('owner_logged', 'true');
-                document.getElementById('loginScreen').classList.add('hidden');
-                document.getElementById('ownerScreen').classList.add('active');
+            const ownerKeys = JSON.parse(localStorage.getItem('owner_generated_keys') || '{}');
+            const keyData = ownerKeys[key];
+            
+            if (!keyData) {
+                showError('Key inválida!');
+                return;
+            }
+
+            const currentHWID = getHWID();
+
+            // Ativa a key do admin se for o primeiro uso
+            if (!keyData.isActivated) {
+                const durationMs = keyData.durationMs || (keyData.days * 24 * 60 * 60 * 1000);
+                keyData.isActivated = true;
+                keyData.activatedAt = Date.now();
+                keyData.expiryTime = Date.now() + durationMs;
+                keyData.remainingMs = durationMs;
+                keyData.usedDevices = [currentHWID];
+                localStorage.setItem('owner_generated_keys', JSON.stringify(ownerKeys));
+                alert("✓ ACESSO ADMIN ATIVADO!");
             } else {
-                showError('Senha incorreta!');
-                document.getElementById('passwordInput').value = '';
+                if (!keyData.usedDevices) keyData.usedDevices = [];
+                if (!keyData.usedDevices.includes(currentHWID)) {
+                    const limit = keyData.deviceLimit || 1;
+                    if (keyData.usedDevices.length >= limit) {
+                        showError(`Limite de ${limit} tela(s) atingido!`);
+                        return;
+                    }
+                    keyData.usedDevices.push(currentHWID);
+                    localStorage.setItem('owner_generated_keys', JSON.stringify(ownerKeys));
+                }
+            }
+
+            const now = Date.now();
+            const diff = keyData.isPaused ? keyData.remainingMs : (keyData.expiryTime - now);
+
+            if (diff > 0 && !keyData.isPaused) {
+                adminKey = key;
+                localStorage.setItem('admin_logged', 'true');
+                localStorage.setItem('admin_key', key);
+                document.getElementById('loginScreen').classList.add('hidden');
+                document.getElementById('adminScreen').classList.add('active');
+            } else if (keyData.isPaused) {
+                showError('Sua key de Admin está pausada!');
+            } else {
+                showError('Sua key de Admin expirou!');
+                document.getElementById('keyInput').value = '';
             }
         }
 
         function logout() {
-            localStorage.removeItem('owner_logged');
-            document.getElementById('ownerScreen').classList.remove('active');
+            localStorage.removeItem('admin_logged');
+            localStorage.removeItem('admin_key');
+            adminKey = null;
+            document.getElementById('adminScreen').classList.remove('active');
             document.getElementById('loginScreen').classList.remove('hidden');
-            document.getElementById('passwordInput').value = '';
+            document.getElementById('keyInput').value = '';
         }
 
         function generateKey() {
@@ -610,7 +757,7 @@
             else if (timeUnit === 'horas') durationMs = timeValue * 60 * 60 * 1000;
             else durationMs = timeValue * 24 * 60 * 60 * 1000;
 
-            const key = 'ADMIN-' + Math.random().toString(36).substr(2, 6).toUpperCase();
+            const key = 'YUTA-' + Math.random().toString(36).substr(2, 6).toUpperCase();
 
             generatedKeys[key] = {
                 createdAt: Date.now(),
@@ -622,23 +769,24 @@
                 durationMs: durationMs,
                 isPaused: false,
                 remainingMs: durationMs,
+                createdBy: adminKey,
                 deviceLimit: deviceLimit,
-                usedDevices: []
+                usedDevices: [] // Lista de IDs de dispositivos (HWID simulado)
             };
 
             saveKeys();
             renderKeysList();
             updateStats();
-            alert('Key gerada com sucesso! (Ativará no primeiro uso)');
+            alert('Key para usuário gerada! (Ativará no primeiro uso)');
         }
 
         function resetDevices(key) {
-            if (confirm("Deseja resetar os dispositivos desta key?")) {
+            if (confirm("Deseja resetar os dispositivos vinculados a esta key?")) {
                 if (generatedKeys[key]) {
                     generatedKeys[key].usedDevices = [];
                     saveKeys();
                     renderKeysList();
-                    alert("Dispositivos resetados!");
+                    alert("Dispositivos resetados com sucesso!");
                 }
             }
         }
@@ -648,63 +796,80 @@
             if (!data) return;
 
             if (data.isPaused) {
-                // Retomar
                 if (data.isActivated) {
                     data.expiryTime = Date.now() + data.remainingMs;
                 }
                 data.isPaused = false;
-                showSuccessMessage("✓ KEY RETOMADA!");
             } else {
-                // Pausar
                 if (data.isActivated) {
                     const remaining = data.expiryTime - Date.now();
                     data.remainingMs = Math.max(0, remaining);
                 }
                 data.isPaused = true;
-                showSuccessMessage("✓ KEY PAUSADA!");
             }
             saveKeys();
             renderKeysList();
             updateStats();
         }
 
+        function renewKey(key) {
+            const data = generatedKeys[key];
+            if (!data) return;
+
+            if (confirm(`Renovar esta key para mais ${data.durationValue || data.days} ${data.durationUnit || 'dias'}?`)) {
+                const durationMs = data.durationMs || (data.days * 24 * 60 * 60 * 1000);
+                data.expiryTime = Date.now() + durationMs;
+                data.isPaused = false;
+                data.remainingMs = durationMs;
+                saveKeys();
+                renderKeysList();
+                updateStats();
+                alert("✓ KEY RENOVADA!");
+            }
+        }
+
         function expireKey(key) {
-            if (confirm("Deseja realmente expirar esta key agora?")) {
+            if (confirm("Expirar esta key agora?")) {
                 generatedKeys[key].expiryTime = Date.now() - 1000;
                 generatedKeys[key].isPaused = false;
                 saveKeys();
                 renderKeysList();
                 updateStats();
-                showSuccessMessage("✓ KEY EXPIRADA!");
             }
         }
 
-        function renewKey(key) {
-            const data = generatedKeys[key];
-            if (!data) return;
-
-            if (confirm(`Deseja renovar esta key para mais ${data.durationValue || data.days} ${data.durationUnit || 'dias'}?`)) {
-                let durationMs = 0;
-                const value = data.durationValue || data.days;
-                const unit = data.durationUnit || 'dias';
-
-                if (unit === 'minutos') durationMs = value * 60 * 1000;
-                else if (unit === 'horas') durationMs = value * 60 * 60 * 1000;
-                else durationMs = value * 24 * 60 * 60 * 1000;
-
-                data.expiryTime = Date.now() + durationMs;
-                data.isPaused = false;
-                data.remainingMs = durationMs;
-                
-                saveKeys();
-                renderKeysList();
-                updateStats();
-                showSuccessMessage("✓ KEY RENOVADA COM SUCESSO!");
-            }
+        function pauseKey(key) {
+            generatedKeys[key].paused = true;
+            saveKeys();
+            renderKeysList();
+            updateStats();
         }
 
-        function showSuccessMessage(msg) {
-            alert(msg);
+        function unpauseKey(key) {
+            generatedKeys[key].paused = false;
+            saveKeys();
+            renderKeysList();
+            updateStats();
+        }
+
+        function pauseAllKeys() {
+            Object.keys(generatedKeys).forEach(key => {
+                generatedKeys[key].paused = true;
+            });
+            saveKeys();
+            renderKeysList();
+            updateStats();
+            alert('Todas as keys foram pausadas!');
+        }
+
+        function unpauseAllKeys() {
+            Object.keys(generatedKeys).forEach(key => {
+                generatedKeys[key].paused = false;
+            });
+            saveKeys();
+            renderKeysList();
+            updateStats();
+            alert('Todas as keys foram despausadas!');
         }
 
         function copyKey(key) {
@@ -716,7 +881,7 @@
                 document.execCommand('copy');
                 alert('Key copiada com sucesso!');
             } catch (err) {
-                alert('Erro ao copiar key.');
+                alert('Erro ao copiar.');
             }
             document.body.removeChild(textArea);
         }
@@ -730,10 +895,25 @@
             }
         }
 
+        function clearExpiredKeys() {
+            const before = Object.keys(generatedKeys).length;
+            Object.keys(generatedKeys).forEach(key => {
+                if (generatedKeys[key].expiryTime <= Date.now()) {
+                    delete generatedKeys[key];
+                }
+            });
+            const after = Object.keys(generatedKeys).length;
+            const removed = before - after;
+            saveKeys();
+            renderKeysList();
+            updateStats();
+            alert(`${removed} key(s) expirada(s) removida(s)!`);
+        }
+
         function updateStats() {
             const total = Object.keys(generatedKeys).length;
-            const active = Object.values(generatedKeys).filter(k => k.expiryTime > Date.now()).length;
-            const expired = total - active;
+            const active = Object.values(generatedKeys).filter(k => k.expiryTime > Date.now() && !k.paused).length;
+            const expired = Object.values(generatedKeys).filter(k => k.expiryTime <= Date.now()).length;
 
             document.getElementById('totalKeys').textContent = total;
             document.getElementById('activeKeys').textContent = active;
@@ -742,7 +922,10 @@
 
         function renderKeysList() {
             const container = document.getElementById('keysList');
-            const allKeys = Object.entries(generatedKeys).sort((a, b) => b[1].createdAt - a[1].createdAt);
+            // Filtra para mostrar apenas as keys geradas por este Admin
+            const allKeys = Object.entries(generatedKeys)
+                .filter(([key, data]) => data.createdBy === adminKey || !data.createdBy)
+                .sort((a, b) => b[1].createdAt - a[1].createdAt);
 
             if (allKeys.length === 0) {
                 container.innerHTML = '<div class="empty-message">Nenhuma key gerada ainda</div>';
@@ -813,9 +996,10 @@
         }
 
         function checkLogin() {
-            if (localStorage.getItem('owner_logged') === 'true') {
+            if (localStorage.getItem('admin_logged') === 'true') {
+                adminKey = localStorage.getItem('admin_key');
                 document.getElementById('loginScreen').classList.add('hidden');
-                document.getElementById('ownerScreen').classList.add('active');
+                document.getElementById('adminScreen').classList.add('active');
             }
         }
 
